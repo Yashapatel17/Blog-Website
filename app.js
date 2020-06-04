@@ -17,14 +17,29 @@ app.use(express.static("public"));
 
 
 
+app.get("/", function (req,res){
+  res.render("home", {StartingContent:homeStartingContent});
+})
 
+app.get("/about", function (req,res){
+  res.render("about",{contentabout: aboutContent});
+});
 
+app.get("/contact", function (req,res){
+  res.render("contact",{contentcontact: contactContent})
+});
 
+app.get("/compose", function(req, res){
+  res.render("compose");
+});
 
-
-
-
-
+app.post("/compose", function (req, res){
+  let post = {
+    ft: req.body.title,
+    pb: req.body.postbox
+  }
+  console.log(post);
+});
 
 
 
