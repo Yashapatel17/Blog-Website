@@ -10,39 +10,53 @@ const contactContent = "Scelerisque eleifend donec pretium vulputate sapien. Rho
 
 const app = express();
 
+// global variable 
+let posts = [];
+
 app.set('view engine', 'ejs');
 
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 
-
-app.get("/", function (req,res){
-  res.render("home", {StartingContent:homeStartingContent});
+// home route
+app.get("/", function (req, res) {
+  res.render("home", {
+     StartingContent: homeStartingContent,
+     posts: posts
+    });
+  
 })
 
-app.get("/about", function (req,res){
-  res.render("about",{contentabout: aboutContent});
+//aboutr us route
+app.get("/about", function (req, res) {
+  res.render("about", { contentabout: aboutContent });
 });
 
-app.get("/contact", function (req,res){
-  res.render("contact",{contentcontact: contactContent})
+// contact us route
+app.get("/contact", function (req, res) {
+  res.render("contact", { contentcontact: contactContent })
 });
 
-app.get("/compose", function(req, res){
+// compose route
+app.get("/compose", function (req, res) {
   res.render("compose");
 });
 
-app.post("/compose", function (req, res){
-  let post = {
-    ft: req.body.title,
-    pb: req.body.postbox
+// posting data from the input to compose route
+app.post("/compose", function (req, res) {
+  const post = {
+    ftitle: req.body.title,       // js object to store data
+    pbox: req.body.postbox
   }
-  console.log(post);
+
+  posts.push(post);
+
+  res.redirect("/");
 });
 
 
 
-app.listen(3000, function() {
+app.listen(3000, function () {
   console.log("Server started on port 3000");
 });
